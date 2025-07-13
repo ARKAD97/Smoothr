@@ -12,3 +12,5 @@ model:
   model_name: deim_hgnetv2_n
   image_size: ${size2d:640,640}
   device: ${device}
+
+output: data/detections.parquet

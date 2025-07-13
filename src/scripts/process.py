@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Iterator, Optional
 
 import decord
@@ -31,12 +32,13 @@ def read_video(path: str, device: str, cfg: VideoConfig) -> Iterator[np.ndarray]
     # TODO: build from sources to enable gpu acceleratoion https://github.com/dmlc/decord
     video_reader = decord.VideoReader(path, ctx=decord.cpu(0))
 
-    # if not specified, read till the end of the video
     logger.info(f"Total frames: {len(video_reader)}")
+
+    # if segment is specified, read till the end of the video
     end = len(video_reader)
     end = min(cfg.end, end) if cfg.end else end
 
-    # Read batches
+    # Read batches for specified segment skiping specified number of frames
     frames_per_inference = cfg.skip + 1
     for start_idx in range(cfg.start, end, cfg.batch_size * frames_per_inference):
         end_idx = min(start_idx + cfg.batch_size * frames_per_inference, end)
@@ -56,6 +58,7 @@ def process(cfg: DictConfig) -> None:
 
     model: AbstractDetector = hydra.utils.instantiate(cfg.model)
 
+    # Run detector for each batch and save detections to the polars dataframe
     dataframes = []
     for indices, batch in tqdm(
         read_video(cfg.path, cfg.device, cfg=VideoConfig(**cfg.video_config))
@@ -75,7 +78,10 @@ def process(cfg: DictConfig) -> None:
             df = df.with_columns(pl.repeat(idx, pl.len()).alias("frame"))
             dataframes.append(df)
     df: pl.DataFrame = pl.concat(dataframes)
-    df.write_parquet("data/hi.parquet")
+
+    # Save results to parquet
+    Path(cfg.output).parent.mkdir(exist_ok=True, parents=True)
+    df.write_parquet(cfg.outputs)
 
 
 if "__main__" == __name__:
