@@ -1,0 +1,11 @@
+decord
+git+https://github.com/dnth/DEIM.git@v0.2.1
+hydra-core
+loguru
+numpy
+opencv-python
+Pillow
+polars
+pre-commit
+torch
+torchvision

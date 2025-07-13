@@ -1,0 +1,14 @@
+
+path: data/cam_2.mp4
+device: cuda
+video_config:
+  start: 0
+  end: null
+  batch_size: 1
+  skip: 0
+
+model:
+  _target_: src.models.DEIMDetector
+  model_name: deim_hgnetv2_n
+  image_size: ${size2d:640,640}
+  device: ${device}
