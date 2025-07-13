@@ -59,6 +59,16 @@ def draw_text(
     )
 
 
+def draw_white_area(frame: cv2.Mat, cfg: DictConfig) -> None:
+    cv2.rectangle(
+        frame,
+        (cfg.x1, cfg.y1),
+        (cfg.x2, cfg.y2),
+        color=(255, 255, 255, 100),
+        thickness=1,
+    )
+
+
 @hydra.main(config_path="config", config_name="viz", version_base=None)
 def viz(cfg: DictConfig) -> None:
     logger.info(OmegaConf.to_yaml(cfg))
@@ -79,6 +89,9 @@ def viz(cfg: DictConfig) -> None:
     }
 
     for idx, frame in video_reader:
+
+        if cfg.white_area.enable:
+            draw_white_area(frame, cfg.white_area)
 
         if idx not in frame2detections:
             video_writer.write(frame)

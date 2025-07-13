@@ -7,3 +7,10 @@ text:
   label: true
   scale: 0.5
   thickness: 2
+
+white_area:
+  enable: true
+  x1: 120
+  y1: 0
+  x2: 400
+  y2: 240
