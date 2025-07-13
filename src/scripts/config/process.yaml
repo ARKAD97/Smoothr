@@ -9,8 +9,9 @@ video_config:
 
 model:
   _target_: src.models.DEIMDetector
-  model_name: deim_hgnetv2_n
+  model_name: deim_hgnetv2_x
   image_size: ${size2d:640,640}
+  threshold: 0.5
   device: ${device}
 
 output: data/detections.parquet

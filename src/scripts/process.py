@@ -47,8 +47,6 @@ def read_video(path: str, device: str, cfg: VideoConfig) -> Iterator[np.ndarray]
         batch = (
             video_reader.get_batch(indices).to(device).to(torch.float32)
         )  # (N, H, W, 3)
-        batch /= 255
-        batch = batch.permute(0, 3, 1, 2).contiguous()  # (N, 3, H, W)
         yield indices, batch
 
 
@@ -68,11 +66,11 @@ def process(cfg: DictConfig) -> None:
             df = pl.DataFrame(
                 {
                     "score": detections.scores,
-                    "x": x1,
                     "y": y1,
-                    "width": x2 - x1,
+                    "x": x1,
                     "height": y2 - y1,
-                    "labels": detections.labels,
+                    "width": x2 - x1,
+                    "label": detections.labels,
                 }
             )
             df = df.with_columns(pl.repeat(idx, pl.len()).alias("frame"))

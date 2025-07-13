@@ -17,5 +17,8 @@ class Size2D:
     height: Number
     width: Number
 
-    def as_tuple(self) -> Tuple[Number, Number]:
+    def as_hw_tuple(self) -> Tuple[Number, Number]:
         return (self.height, self.width)
+
+    def as_wh_tuple(self) -> Tuple[Number, Number]:
+        return (self.width, self.height)
