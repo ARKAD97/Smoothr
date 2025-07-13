@@ -81,7 +81,7 @@ def process(cfg: DictConfig) -> None:
 
     # Save results to parquet
     Path(cfg.output).parent.mkdir(exist_ok=True, parents=True)
-    df.write_parquet(cfg.outputs)
+    df.write_parquet(cfg.output)
 
 
 if "__main__" == __name__:
