@@ -1,16 +1,18 @@
 video: data/cam_2.mp4
 detections: data/detections.parquet
 dst: data/output.mp4
+events: data/input_events.txt
 labels: assets/label_names.csv
-text:
-  score: true
-  label: true
-  scale: 0.5
-  thickness: 2
-
-white_area:
-  enable: true
-  x1: 120
-  y1: 0
-  x2: 400
-  y2: 240
+display:
+  text:
+    score: true
+    label: true
+    scale: 0.5
+    thickness: 2
+  white_area:
+    enable: true
+    x1: 120
+    y1: 0
+    x2: 400
+    y2: 240
+  events: true

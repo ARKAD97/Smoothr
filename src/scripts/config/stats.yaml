@@ -1,0 +1,10 @@
+events: data/input_events.txt
+detections: data/detections.parquet
+
+white_area:
+  x1: 120
+  y1: 0
+  x2: 400
+  y2: 240
+
+dst: data/stats.csv

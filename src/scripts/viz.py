@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Dict, Tuple
 
 import cv2
 import hydra
@@ -52,9 +52,9 @@ def draw_text(
         text,
         (x + 2, y - 2),
         cv2.FONT_HERSHEY_SIMPLEX,
-        0.5,
+        scale,
         (255, 255, 255),
-        1,
+        thickness,
         cv2.LINE_AA,
     )
 
@@ -67,6 +67,13 @@ def draw_white_area(frame: cv2.Mat, cfg: DictConfig) -> None:
         color=(255, 255, 255, 100),
         thickness=1,
     )
+
+
+def load_detections_per_frame(path: str) -> Dict[int, pl.DataFrame]:
+    return {
+        group[0]: Detections.from_polars(grouped_df, round=True)
+        for group, grouped_df in pl.read_parquet(path).group_by("frame")
+    }
 
 
 @hydra.main(config_path="config", config_name="viz", version_base=None)
@@ -83,15 +90,19 @@ def viz(cfg: DictConfig) -> None:
     )
 
     # load detecions per frame
-    frame2detections = {
-        group[0]: Detections.from_polars(grouped_df, round=True)
-        for group, grouped_df in pl.read_parquet(cfg.detections).group_by("frame")
-    }
+    frame2detections = load_detections_per_frame(cfg.detections)
+
+    # load events
+    if cfg.events is not None:
+        events = utils.read_events(cfg.events)
 
     for idx, frame in video_reader:
 
-        if cfg.white_area.enable:
-            draw_white_area(frame, cfg.white_area)
+        if cfg.display.white_area.enable:
+            draw_white_area(frame, cfg.display.white_area)
+
+        if idx in events:
+            draw_text(frame, "event!", 50, 200, (0, 0, 0), 10, 5)
 
         if idx not in frame2detections:
             video_writer.write(frame)
@@ -113,12 +124,12 @@ def viz(cfg: DictConfig) -> None:
             cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
 
             # Draw label
-            if cfg.text.label or cfg.text.score:
+            if cfg.display.text.label or cfg.display.text.score:
                 text = ""
 
-                if cfg.text.label:
+                if cfg.display.text.label:
                     text += f"{label2name[label]} "
-                if cfg.text.score:
+                if cfg.display.text.score:
                     text += f"{score:3f}"
 
                 draw_text(
@@ -127,8 +138,8 @@ def viz(cfg: DictConfig) -> None:
                     x1,
                     y1,
                     background_color=color,
-                    scale=cfg.text.scale,
-                    thickness=cfg.text.thickness,
+                    scale=cfg.display.text.scale,
+                    thickness=cfg.display.text.thickness,
                 )
 
         video_writer.write(frame)

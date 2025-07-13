@@ -63,3 +63,11 @@ class Size2D:
 
     def as_wh_tuple(self) -> Tuple[Number, Number]:
         return (self.width, self.height)
+
+
+@dataclass
+class Rect:
+    x1: Number
+    y1: Number
+    x2: Number
+    y2: Number

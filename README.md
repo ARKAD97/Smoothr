@@ -2,7 +2,6 @@
 Assignment task
 
 ## TODO:
-- statistics
 - test
 - benchmark
 - yolov9
@@ -12,3 +11,4 @@ Assignment task
 - visualize events from `input_events.txt`
 - Streaming mode (if needed)
 - Visualize frame number
+- refactor statistics: simplify addition of new metrics

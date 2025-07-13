@@ -1,13 +1,16 @@
 from __future__ import annotations
 
+import ast
 from dataclasses import dataclass
-from typing import Optional, Tuple
+from pathlib import Path
+from typing import Dict, Optional, Tuple
 
 import cv2
+import polars as pl
 import torch
 from loguru import logger
 
-from src.datatypes import Size2D
+from src.datatypes import Detections, Size2D
 
 
 class VideoReaderCV:
@@ -85,7 +88,7 @@ class BatchedVideoReader:
         )
         self.idx = -1
 
-    def frame_number(self):
+    def frame_number(self) -> int:
         return len(self.video_reader)
 
     def __iter__(self) -> BatchedVideoReader:
@@ -106,3 +109,9 @@ class BatchedVideoReader:
         return indices, self.video_reader.get_batch(indices).to(self.device).to(
             torch.float32
         )
+
+
+def read_events(path: str) -> Dict[int, Dict]:
+    events = Path(path).read_text().splitlines()
+    events = list(map(ast.literal_eval, events))
+    return {event["frame"]: event for event in events}
