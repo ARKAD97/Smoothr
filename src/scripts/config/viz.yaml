@@ -1,0 +1,9 @@
+video: data/cam_2.mp4
+detections: data/detections.parquet
+dst: data/output.mp4
+labels: assets/label_names.csv
+text:
+  score: true
+  label: true
+  scale: 0.5
+  thickness: 2
