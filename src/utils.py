@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Dict, Optional, Tuple
 
 import cv2
+import decord
 import torch
 from loguru import logger
 
@@ -72,8 +73,6 @@ class VideoConfig:
 class BatchedVideoReader:
 
     def __init__(self, path: str, device: str, cfg: VideoConfig) -> None:
-        import decord
-
         # TODO: build from sources to enable gpu acceleratoion https://github.com/dmlc/decord
         self.video_reader = decord.VideoReader(path, ctx=decord.cpu(0))
         self.device = device

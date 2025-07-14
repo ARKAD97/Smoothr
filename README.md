@@ -89,6 +89,14 @@ On my GPU RTX 3060 60w (crippled for laptops gpu) with the largest model (`deim_
 You can set the smallest model (run with `model.model_name=deim_hgnetv2_n`) and it would work with 60-70 fps.
 However, such small model being untrained doesn't detect anything meaningful
 
+## Unit tests:
+
+```bash
+pytest .
+```
+
+
+
 ## TODO:
 - test
 - benchmark
@@ -101,4 +109,5 @@ However, such small model being untrained doesn't detect anything meaningful
 - refactor statistics: simplify addition of new metrics
 
 ## Disclaimer
-Normally `data/` should be in `.gitignore`, but for demonstration purposes, I've added videos in git
+- Normally `data/` should be in `.gitignore`, but for demonstration purposes, I've added videos in git
+- Unit tests were majorly implemented with the help of Claude 4 Opus
