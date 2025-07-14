@@ -6,11 +6,10 @@ from pathlib import Path
 from typing import Dict, Optional, Tuple
 
 import cv2
-import polars as pl
 import torch
 from loguru import logger
 
-from src.datatypes import Detections, Size2D
+from src.datatypes import Size2D
 
 
 class VideoReaderCV:
