@@ -48,8 +48,8 @@ def process(cfg: DictConfig) -> None:
     df: pl.DataFrame = pl.concat(dataframes)
 
     # Save results to parquet
-    Path(cfg.output).parent.mkdir(exist_ok=True, parents=True)
-    df.write_parquet(cfg.output)
+    Path(cfg.dst).parent.mkdir(exist_ok=True, parents=True)
+    df.write_parquet(cfg.dst)
 
 
 if "__main__" == __name__:
