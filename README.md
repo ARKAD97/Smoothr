@@ -7,7 +7,13 @@ Some say it beats all yolo models.
 Another solid choice would be [yolov9](https://github.com/WongKinYiu/yolov9)
 
 ## Installation
-Just create virtual environment, and install `requirements.txt` as usual.
+Just create virtual environment, and install `requirements.txt` as usual:
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
 Repo was tested on Ubuntu 22.04
 
 ## Usage
@@ -72,6 +78,13 @@ python -m src.scripts.stats\
 ```
 
 For all params please see [configs](src/scripts/config/stats.yaml)
+
+### Benchmark
+
+On my GPU RTX 3060 60w (crippled for laptops gpu) with the largest model (`deim_hgnetv2_x`) it works for 19 fps.
+
+You can set the smallest model (run with `model.model_name=deim_hgnetv2_n`) and it would work with 60-70 fps.
+However, such small model being untrained doesn't detect anything meaningful
 
 ## TODO:
 - test
