@@ -1,6 +1,9 @@
 # Smoothr
 Assignment task
 
+![](assets/screenshot.png)
+
+
 For this assignment I picked transormer-based model [DEIM](https://github.com/ShihuaHuang95/DEIM).
 Some say it beats all yolo models.
 
