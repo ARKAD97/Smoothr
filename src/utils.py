@@ -21,6 +21,12 @@ class VideoReaderCV:
             logger.error(f"Cannot open video: {path}")
             return
 
+        logger.info(
+            f"Reading video at {path}, "
+            f"fps={self.fps}, "
+            f"frame_size={self.frame_size}"
+        )
+
     def __iter__(self) -> VideoReaderCV:
         return self
 

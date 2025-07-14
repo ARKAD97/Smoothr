@@ -48,6 +48,7 @@ def stats(cfg: DictConfig) -> None:
 
     stats = stats_per_event(dets_per_frame, events, white_area)
     stats.write_csv(cfg.dst)
+    logger.info(str(stats))
 
 
 if "__main__" == __name__:

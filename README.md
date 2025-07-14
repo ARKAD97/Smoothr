@@ -98,14 +98,14 @@ pytest .
 
 
 ## TODO:
-- test
 - benchmark
 - yolov9
-- logging
 - DEIM inference via onnx-runtime
-- visualize events from `input_events.txt`
 - Streaming mode (if needed)
 - Visualize frame number
+- Rework visualization of input event
+- Improve test coverage
+- invent some new metrics for `stats` script
 - refactor statistics: simplify addition of new metrics
 
 ## Disclaimer
