@@ -1,5 +1,7 @@
 .venv
-data/
+
+# left here for demonstration
+# data/
 
 *__pycache__
 
